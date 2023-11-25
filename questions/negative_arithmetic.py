@@ -9,7 +9,7 @@ import random
 from constants.topics import *
 from constants.displays import *
 from constants.answers import *
-from constants.checkers import *
+from constants.verifiers import *
 from engine.generate import QuestionGenerator
 
 
@@ -24,5 +24,5 @@ def generate_level_one_negative_plus_positive():
         "answer": str(answer),
         "display": DISPLAY_STANDARD_LATEX,
         "answer_format": ANSWER_FORMAT_INTEGER,
-        "checker": CHECKER_EXACT,
+        "checker": VERIFIER_EXACT,
     }
