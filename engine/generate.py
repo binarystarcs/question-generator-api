@@ -1,3 +1,9 @@
+import sys
+import os
+
+current = os.path.dirname(os.path.realpath(__file__))
+sys.path.append(os.path.dirname(current))
+
 import logging
 import random
 from constants.levels import get_exact_level

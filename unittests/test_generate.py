@@ -1,10 +1,12 @@
 import sys
+import os
 
-sys.path.append("..")
+current = os.path.dirname(os.path.realpath(__file__))
+sys.path.append(os.path.dirname(current))
 
 print(sys.path)
 
-from generate import QuestionGenerator
+from engine.generate import QuestionGenerator
 
 
 @QuestionGenerator.register("ADDITION", 1, 2.0)
