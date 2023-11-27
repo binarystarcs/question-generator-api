@@ -6,6 +6,8 @@ sys.path.append(os.path.dirname(current))
 
 import logging
 import random
+from uuid import uuid4
+from engine import database
 from constants.levels import get_exact_level
 
 
@@ -76,7 +78,9 @@ class QuestionGenerator:
     def get_question(topic, level, exact_level=False):
         topic_generator = QuestionGenerator.generators[topic]
         question = topic_generator.get_question(level, exact_level=exact_level)
-        # TODO: Question to be stored in database!
+        question["id"] = str(uuid4())
+        print("Connecting to DB...")
+        database.store_question(question)
         # TODO: Strip answer from the question
         return question
 
@@ -89,6 +93,7 @@ class QuestionGenerator:
             or not "need" in topic_entry
         ):
             return False
+        print("hi")
         return topic_entry["topic"] in QuestionGenerator.generators
 
     def get_question_from_profile(profile):
@@ -96,10 +101,12 @@ class QuestionGenerator:
         if "topics" not in profile:
             logging.error("Topics section absent from profile\n", profile)
             return None
-        filtered_topics = filter(
-            profile["topics"], QuestionGenerator.verify_profile_topics
+        filtered_topics = list(
+            filter(QuestionGenerator.verify_profile_topic, profile["topics"])
         )
-        topics = filtered_topics.map(lambda entry: (entry["topic"], entry["level"]))
-        needs = filtered_topics.map(lambda entry: entry["need"])
+        topics = list(
+            map(lambda entry: (entry["topic"], entry["level"]), filtered_topics)
+        )
+        needs = list(map(lambda entry: entry["need"], filtered_topics))
         chosen_topic = random.choices(topics, weights=needs)[0]
         return QuestionGenerator.get_question(*chosen_topic)

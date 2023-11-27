@@ -6,6 +6,7 @@ sys.path.append(os.path.dirname(current))
 
 import logging
 import random
+import database
 
 
 class AnswerVerifier:
@@ -21,7 +22,14 @@ class AnswerVerifier:
         return decorator
 
     def verify(verifier, correct_answer, submitted_answer):
-        return AnswerVerifier.verifiers[verifier](correct_answer, submitted_answer)
+        is_correct = AnswerVerifier.verifiers[verifier](
+            correct_answer, submitted_answer
+        )
+        return {
+            "is_correct": is_correct,
+            "correct_answer": correct_answer,
+            "submitted_answer": submitted_answer,
+        }
 
     def verify_from_json(question_json, submitted_answer):
         return AnswerVerifier.verify(
@@ -31,8 +39,9 @@ class AnswerVerifier:
         )
 
     def get_question_json(question_id):
-        # TODO: Retrieve question from the database
-        pass
+        question = database.retrieve_question(question_id)
+        logging.info(question)
+        return question
 
     def verify_from_id(question_id, submitted_answer):
         question_json = AnswerVerifier.get_question_json(question_id)
