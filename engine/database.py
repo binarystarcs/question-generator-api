@@ -1,7 +1,9 @@
 import boto3
 import logging
+import time
 
 TABLE_NAME = "questions-data"
+PERSISTENCE_SECONDS = 3600
 
 client = boto3.client("dynamodb")
 
@@ -12,6 +14,7 @@ def prepare_for_dynamo(item):
             item[key] = {"S": value}
         elif isinstance(value, int):
             item[key] = {"N": str(value)}
+    item["ttl"] = {"N": str(int(time.time() + PERSISTENCE_SECONDS))}
     return item
 
 

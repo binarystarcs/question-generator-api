@@ -21,9 +21,9 @@ class AnswerVerifier:
 
         return decorator
 
-    def verify(verifier, correct_answer, submitted_answer):
+    def verify(verifier, correct_answer, submitted_answer, answer_data=None):
         is_correct = AnswerVerifier.verifiers[verifier](
-            correct_answer, submitted_answer
+            submitted_answer, correct_answer, answer_data=answer_data
         )
         return {
             "is_correct": is_correct,
@@ -32,15 +32,19 @@ class AnswerVerifier:
         }
 
     def verify_from_json(question_json, submitted_answer):
+        answer_data = None
+        if "answer_data" in question_json:
+            answer_data = question_json["answer_data"]
         return AnswerVerifier.verify(
             question_json["verifier"],
-            question_json["answer"],
             submitted_answer,
+            question_json["answer"],
+            answer_data=answer_data,
         )
 
     def get_question_json(question_id):
         question = database.retrieve_question(question_id)
-        logging.info(question)
+        logging.info("Retrieved from database: ", question)
         return question
 
     def verify_from_id(question_id, submitted_answer):

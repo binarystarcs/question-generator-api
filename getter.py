@@ -12,8 +12,17 @@ SAMPLE_PROFILE = {
 }
 
 
+def strip_answer(question):
+    if "answer" in question:
+        del question["answer"]
+    if "answer_data" in question:
+        del question["answer_data"]
+    return question
+
+
 def handler():
     question = generate.QuestionGenerator.get_question_from_profile(SAMPLE_PROFILE)
+    question = strip_answer(question)
     return question
 
 
