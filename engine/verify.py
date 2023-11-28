@@ -5,8 +5,7 @@ current = os.path.dirname(os.path.realpath(__file__))
 sys.path.append(os.path.dirname(current))
 
 import logging
-import random
-import database
+from engine import database
 
 
 class AnswerVerifier:
@@ -21,7 +20,7 @@ class AnswerVerifier:
 
         return decorator
 
-    def verify(verifier, correct_answer, submitted_answer, answer_data=None):
+    def verify(verifier, submitted_answer, correct_answer, answer_data=None):
         is_correct = AnswerVerifier.verifiers[verifier](
             submitted_answer, correct_answer, answer_data=answer_data
         )

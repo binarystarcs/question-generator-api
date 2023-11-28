@@ -20,12 +20,12 @@ def strip_answer(question):
     return question
 
 
-def handler():
-    question = generate.QuestionGenerator.get_question_from_profile(SAMPLE_PROFILE)
+def handler(event):
+    question = generate.QuestionGenerator.get_question_from_profile(event)
     question = strip_answer(question)
     return question
 
 
 if __name__ == "__main__":
-    question = handler()
+    question = handler(SAMPLE_PROFILE)
     print(question)

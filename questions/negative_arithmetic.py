@@ -24,5 +24,5 @@ def generate_level_one_negative_plus_positive():
         "answer": str(answer),
         "display": DISPLAY_STANDARD_LATEX,
         "answer_format": ANSWER_FORMAT_INTEGER,
-        "checker": VERIFIER_EXACT,
+        "verifier": VERIFIER_EXACT,
     }
