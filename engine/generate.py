@@ -81,7 +81,7 @@ class QuestionGenerator:
         question["id"] = str(uuid4())
         print("Connecting to DB...")
         database.store_question(question)
-        # TODO: Strip answer from the question
+        question = database.prepare_for_python(question)
         return question
 
     def verify_profile_topic(topic_entry):

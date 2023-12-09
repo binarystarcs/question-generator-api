@@ -25,6 +25,8 @@ def prepare_for_python(item):
             item[key] = value["S"]
         elif isinstance(value, dict) and "N" in value:
             item[key] = int(value["N"])
+    if "ttl" in item:
+        del item["ttl"]
     return item
 
 
